@@ -75,6 +75,6 @@ public class JsonWriter {
     }
 
     public void writeToFile(Path path, JsonElement element) throws IOException {
-        Files.write(path, write(element).getBytes());
+        Files.writeString(path, write(element));
     }
 }
