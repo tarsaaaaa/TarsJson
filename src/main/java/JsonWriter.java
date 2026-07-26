@@ -18,7 +18,19 @@ public class JsonWriter {
     public String write(JsonElement element) {
         return writeValue(element, 1);
     }
+    public String write(JsonElement element, boolean prettyPrint) {
+        if (prettyPrint) return writeValue(element, 1);
+        return writeValue(element);
+    }
 
+    private String writeValue(JsonElement element) {
+        return switch (element) {
+            case JsonObject object -> writeObject(object);
+            case JsonArray array -> writeArray(array);
+            case JsonNull _ -> writeNull();
+            default -> writePrimitive((JsonPrimitive) element);
+        };
+    }
     private String writeValue(JsonElement element, int depth) {
         return switch (element) {
             case JsonObject object -> writeObject(object, depth);
@@ -28,7 +40,22 @@ public class JsonWriter {
         };
     }
 
+    private String writeObject(JsonObject jsonObject) {
+        StringBuilder objString = new StringBuilder();
+        objString.append("{");
+        Set<Map.Entry<String, JsonElement>> entries = jsonObject.entrySet();
+        boolean first = true;
+        for (Map.Entry<String, JsonElement> entry : entries) {
+            if(!first) objString.append(",");
+            else first=false;
 
+            objString.append("\"").append(entry.getKey()).append("\"");
+            objString.append(":");
+            objString.append(writeValue(entry.getValue()));
+        }
+        objString.append("}");
+        return objString.toString();
+    }
     private String writeObject(JsonObject jsonObject, int depth) {
         StringBuilder objString = new StringBuilder();
         objString.append("{\n");
@@ -44,6 +71,20 @@ public class JsonWriter {
         }
         objString.append("\n").append(getIndent(depth-1)).append("}");
         return objString.toString();
+    }
+    private String writeArray(JsonArray jsonArray) {
+        StringBuilder arrayString = new StringBuilder();
+        arrayString.append("[");
+        boolean first = true;
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            if(!first) arrayString.append(",");
+            else first=false;
+
+            arrayString.append(writeValue(jsonArray.get(i)));
+        }
+        arrayString.append("]");
+        return arrayString.toString();
     }
     private String writeArray(JsonArray jsonArray, int depth) {
         StringBuilder arrayString = new StringBuilder();
@@ -81,5 +122,8 @@ public class JsonWriter {
 
     public void writeToFile(Path path, JsonElement element) throws IOException {
         Files.writeString(path, write(element));
+    }
+    public void writeToFile(Path path, JsonElement element, boolean prettyPrint) throws IOException {
+        Files.writeString(path, write(element, prettyPrint));
     }
 }
