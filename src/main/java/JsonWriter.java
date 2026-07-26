@@ -11,47 +11,52 @@ public class JsonWriter {
 
     }
 
-    public String write(JsonElement element) {
-        return writeValue(element);
+    private String getIndent(int depth) {
+        return "    ".repeat(depth);
     }
 
-    private String writeValue(JsonElement element) {
+    public String write(JsonElement element) {
+        return writeValue(element, 1);
+    }
+
+    private String writeValue(JsonElement element, int depth) {
         return switch (element) {
-            case JsonObject object -> writeObject(object);
-            case JsonArray array -> writeArray(array);
+            case JsonObject object -> writeObject(object, depth);
+            case JsonArray array -> writeArray(array, depth);
             case JsonNull _ -> writeNull();
             default -> writePrimitive((JsonPrimitive) element);
         };
     }
 
-    private String writeObject(JsonObject jsonObject) {
+
+    private String writeObject(JsonObject jsonObject, int depth) {
         StringBuilder objString = new StringBuilder();
-        objString.append("{");
+        objString.append("{\n");
         Set<Map.Entry<String, JsonElement>> entries = jsonObject.entrySet();
         boolean first = true;
         for (Map.Entry<String, JsonElement> entry : entries) {
-            if(!first) objString.append(",");
+            if(!first) objString.append(",\n");
             else first=false;
 
-            objString.append("\"").append(entry.getKey()).append("\"");
-            objString.append(":");
-            objString.append(writeValue(entry.getValue()));
+            objString.append(getIndent(depth)).append("\"").append(entry.getKey()).append("\" ");
+            objString.append(": ");
+            objString.append(writeValue(entry.getValue(), depth+1));
         }
-        objString.append("}");
+        objString.append("\n").append(getIndent(depth-1)).append("}");
         return objString.toString();
     }
-    private String writeArray(JsonArray jsonArray) {
+    private String writeArray(JsonArray jsonArray, int depth) {
         StringBuilder arrayString = new StringBuilder();
-        arrayString.append("[");
+        arrayString.append("[\n");
         boolean first = true;
 
         for (int i = 0; i < jsonArray.size(); i++) {
-            if(!first) arrayString.append(",");
+            if(!first) arrayString.append(",\n");
             else first=false;
 
-            arrayString.append(writeValue(jsonArray.get(i)));
+            arrayString.append(getIndent(depth)).append(writeValue(jsonArray.get(i), depth+1));
         }
-        arrayString.append("]");
+        arrayString.append("\n").append(getIndent(depth-1)).append("]");
         return arrayString.toString();
     }
     private String writePrimitive(JsonPrimitive primitive) {
