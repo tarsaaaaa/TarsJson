@@ -2,7 +2,7 @@
 
 A lightweight JSON parsing and serialization library written completely from scratch in Java.
 
-This project was built as a learning exercise to understand how JSON libraries work internally, implementing every stage of the parsing pipeline—from lexical analysis to serialization—without relying on external JSON libraries.
+This project was built to understand how JSON libraries work internally, implementing every stage of the parsing pipeline—from lexical analysis to serialization—without relying on external JSON libraries.
 
 ---
 
@@ -171,30 +171,6 @@ JsonObject
         └── inventory
             └── JsonArray
 ```
-
----
-
-## Design Goals
-
-This library was designed with the following goals in mind:
-
-* Simple API
-* Readable implementation
-* Recursive descent parser
-* Zero dependencies
-* Easy to understand and extend
-
----
-
-## Future Improvements
-
-Planned features include:
-
-* Full JSON escape sequence support (`\"`, `\\`, `\n`, `\uXXXX`)
-* Floating-point and scientific notation numbers
-* Improved error reporting with detailed parse exceptions
-* Additional convenience getters
-* Comprehensive unit tests
 
 ---
 
