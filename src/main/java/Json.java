@@ -5,7 +5,6 @@ import java.nio.file.Path;
 
 public class Json {
     static void main() throws IOException {
-
     }
 
     public static JsonElement parse(String jsonString) {
@@ -21,8 +20,16 @@ public class Json {
         JsonWriter writer = new JsonWriter();
         return writer.write(element);
     }
+    public static String stringify(JsonElement element, boolean prettyPrint) {
+        JsonWriter writer = new JsonWriter();
+        return writer.write(element, prettyPrint);
+    }
     public static void write(Path path, JsonElement element) throws IOException {
         JsonWriter writer = new JsonWriter();
         writer.writeToFile(path, element);
+    }
+    public static void write(Path path, JsonElement element, boolean prettyPrint) throws IOException {
+        JsonWriter writer = new JsonWriter();
+        writer.writeToFile(path, element, prettyPrint);
     }
 }
