@@ -61,9 +61,7 @@ public class JsonParser {
 
         return switch (token.getType()) {
             case STRING -> new JsonPrimitive(token.getLexeme());
-            case NUMBER -> new JsonPrimitive(
-                    Integer.parseInt(token.getLexeme())
-            );
+            case NUMBER -> parseNumber(token);
             case TRUE -> new JsonPrimitive(true);
             case FALSE -> new JsonPrimitive(false);
             default -> throw new JsonParseException(
@@ -71,6 +69,18 @@ public class JsonParser {
             );
         };
 
+    }
+    private JsonPrimitive parseNumber(Token token) {
+        String number = token.getLexeme();
+        if (number.contains(".") || number.contains("e") || number.contains("E")) {
+            return new JsonPrimitive(Double.parseDouble(number));
+        }
+
+        try {
+            return new JsonPrimitive(Integer.parseInt(number));
+        } catch (NumberFormatException _) {
+            return new JsonPrimitive(Long.parseLong(number));
+        }
     }
     private JsonElement parseNull() {
         consume(TokenType.NULL);
