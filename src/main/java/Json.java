@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class Json {
-    static void main() throws IOException {
+    static void main() {
     }
 
     public static JsonElement parse(String jsonString) {
