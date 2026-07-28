@@ -6,6 +6,11 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Serializes a {@link JsonElement} tree into valid JSON text.
+ * <p>
+ * Supports both compact and pretty-printed output.
+ */
 public class JsonWriter {
     public JsonWriter() {
 
@@ -15,6 +20,10 @@ public class JsonWriter {
         return "    ".repeat(depth);
     }
 
+    /**
+     * Serializes the provided {@link JsonElement} into pretty-printed String.
+     * @return The pretty-print formated string serialized from provided {@link JsonElement}
+     */
     public String write(JsonElement element) {
         return writeValue(element, 1);
     }
@@ -120,6 +129,9 @@ public class JsonWriter {
         return "null";
     }
 
+    /**
+     * Serializes and stored the provided {@link JsonElement} to the provided path.
+     */
     public void writeToFile(Path path, JsonElement element) throws IOException {
         Files.writeString(path, write(element));
     }

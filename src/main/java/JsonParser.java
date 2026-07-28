@@ -5,14 +5,28 @@ import token.TokenType;
 
 import java.util.List;
 
+/**
+ * Parses a sequence of JSON tokens into a tree of {@link JsonElement}(s).
+ * <p>
+ * This parser uses a recursive descent algorithm to construct nested
+ * {@link JsonObject}, {@link JsonArray}, {@link JsonPrimitive}, and
+ * {@link JsonNull} instances.
+ */
 public class JsonParser {
     private final List<Token> tokens;
     private int index;
 
+    /**
+     * Initializes a {@link JsonParser} Object.
+     */
     public JsonParser(List<Token> tokens) {
         this.tokens = tokens;
     }
 
+    /**
+     * Parses the {@code List<Token>} into a {@link JsonElement} tree.
+     * @return The root {@link JsonElement} tree
+     */
     public JsonElement parse() {
         JsonElement element = parseValue();
         consume(TokenType.EOF);

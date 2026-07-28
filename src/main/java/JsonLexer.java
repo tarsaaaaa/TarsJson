@@ -5,12 +5,22 @@ import token.TokenType;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Converts raw JSON text into a sequence of lexical tokens.
+ * <p>
+ * The lexer recognizes JSON punctuation, strings, numbers, booleans,
+ * and null literals while tracking line and column numbers for
+ * error reporting.
+ */
 public class JsonLexer {
     private final String source;
     private int index;
     private int line;
     private int column;
 
+    /**
+     * Initializes a new {@link JsonLexer} Object.
+     */
     public JsonLexer(String source) {
         this.source = source;
         this.index = 0;
@@ -18,6 +28,10 @@ public class JsonLexer {
         this.column = 1;
     }
 
+    /**
+     * Lex-es the JSON string.
+     * @return The list of tokens {@code List<Token>} lex-ed from source JSON string
+     */
     public List<Token> lex() {
         List<Token> tokens = new ArrayList<>();
 
