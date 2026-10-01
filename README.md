@@ -23,19 +23,19 @@ This project was built to understand how JSON libraries work internally, impleme
 JSON Text
     │
     ▼
- JsonLexer
+ Json.JsonLexer
     │
     ▼
    Tokens
     │
     ▼
- JsonParser
+ Json.JsonParser
     │
     ▼
  JsonElement Tree
     │
     ▼
- JsonWriter
+ Json.JsonWriter
     │
     ▼
  JSON Text
@@ -45,14 +45,14 @@ The library is composed of several components:
 
 | Component       | Description                                                             |
 | --------------- | ----------------------------------------------------------------------- |
-| `JsonLexer`     | Converts raw JSON text into a stream of tokens.                         |
-| `JsonParser`    | Builds a tree of `JsonElement` objects using recursive descent parsing. |
+| `Json.JsonLexer`     | Converts raw JSON text into a stream of tokens.                         |
+| `Json.JsonParser`    | Builds a tree of `JsonElement` objects using recursive descent parsing. |
 | `JsonElement`   | Base class for every JSON value.                                        |
 | `JsonObject`    | Represents JSON objects.                                                |
 | `JsonArray`     | Represents JSON arrays.                                                 |
 | `JsonPrimitive` | Represents strings, numbers, and booleans.                              |
 | `JsonNull`      | Represents the JSON `null` value.                                       |
-| `JsonWriter`    | Serializes a `JsonElement` tree back into JSON text.                    |
+| `Json.JsonWriter`    | Serializes a `JsonElement` tree back into JSON text.                    |
 
 ---
 
@@ -80,7 +80,7 @@ String json = """
 }
 """;
 
-JsonElement element = Json.parse(json);
+JsonElement element = Json.Json.parse(json);
 
 JsonObject object = (JsonObject) element;
 
@@ -106,13 +106,13 @@ object.put("admin", new JsonPrimitive(true));
 Compact:
 
 ```java
-String json = Json.stringify(object);
+String json = Json.Json.stringify(object);
 ```
 
 Pretty printed:
 
 ```java
-String json = Json.stringify(object, true);
+String json = Json.Json.stringify(object, true);
 ```
 
 Example output:
@@ -130,7 +130,7 @@ Example output:
 ### Reading from a File
 
 ```java
-JsonElement element = Json.parse(Path.of("config.json"));
+JsonElement element = Json.Json.parse(Path.of("config.json"));
 ```
 
 ---
@@ -138,7 +138,7 @@ JsonElement element = Json.parse(Path.of("config.json"));
 ### Writing to a File
 
 ```java
-Json.write(Path.of("config.json"), object);
+Json.Json.write(Path.of("config.json"), object);
 ```
 
 ---
